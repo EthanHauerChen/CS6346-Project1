@@ -5,11 +5,11 @@ class PetersonLock {
     public boolean[] flag = {false, false};
     public int victim = -1;
     
-    public void acquireA(Runnable callback) {
+    public void acquireLeft(Runnable callback) {
         this.acquireLock(0, callback);
     }
     
-    public void acquireB(Runnable callback) {
+    public void acquireRight(Runnable callback) {
         this.acquireLock(1, callback);
     }
     
@@ -42,13 +42,13 @@ class PetersonLock {
         PetersonLock lock = new PetersonLock();
         Thread threadA = new Thread(() -> {
             for (int i = 0; i < COUNTER_ITERATIONS; i++) {
-                lock.acquireA(() -> counter.incrementValue());
+                lock.acquireLeft(() -> counter.incrementValue());
                 //System.out.println("Counter is " + counter.getValue());
             }
         });
         Thread threadB = new Thread(() -> {
             for (int i = 0; i < COUNTER_ITERATIONS; i++) {
-                lock.acquireB(() -> counter.incrementValue());
+                lock.acquireRight(() -> counter.incrementValue());
                 //System.out.println("Counter is " + counter.getValue());
             }
         });
@@ -63,8 +63,8 @@ class PetersonLock {
         //     PetersonLock lock = new PetersonLock();
             
         //     // simulate multiple processes competing to increment counter using threads
-        //     Thread threadA = new Thread(() -> lock.acquireA(() -> counter.incrementValue()));
-        //     Thread threadB = new Thread(() -> lock.acquireB(() -> counter.incrementValue()));
+        //     Thread threadA = new Thread(() -> lock.acquireLeft(() -> counter.incrementValue()));
+        //     Thread threadB = new Thread(() -> lock.acquireRight(() -> counter.incrementValue()));
             
         //     // allow threads to start
         //     threadA.start();
