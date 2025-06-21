@@ -1,5 +1,4 @@
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicBoolean;
+package locks;
 
 public class TournamentTreeLock {
     PetersonLock[] nodes;
