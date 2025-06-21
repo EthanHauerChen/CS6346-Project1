@@ -2,8 +2,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 class PetersonLock {
-    public boolean[] flag = {false, false};
-    public int victim = -1;
+    public AtomicBoolean[] flag = {new AtomicBoolean(false), new AtomicBoolean(false)};
+    public AtomicInteger victim = new AtomicInteger(-1);
     
     public void acquireLeft(Runnable callback) {
         this.acquireLock(0, callback);
@@ -19,12 +19,12 @@ class PetersonLock {
     
     private void acquireLock(int me, Runnable callback) {
         int notMe = getNotMe(me);
-        flag[me] = true;
-        victim = me;
+        flag[me].set(true);
+        victim.set(me);
         
-        while (flag[notMe] && victim == me) { /** busy-wait **/ }
+        while (flag[notMe].get() && victim.get() == me) { /** busy-wait **/ }
         callback.run();
-        flag[me] = false;
+        flag[me].set(false);
     }
     
     static class Counter {
@@ -36,7 +36,7 @@ class PetersonLock {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        int COUNTER_ITERATIONS = 50000;
+        int COUNTER_ITERATIONS = 500000;
         Counter counter = new Counter();
 
         PetersonLock lock = new PetersonLock();

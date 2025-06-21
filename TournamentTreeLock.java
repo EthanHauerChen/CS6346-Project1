@@ -7,4 +7,8 @@ public class TournamentTreeLock {
     public TournamentTreeLock(int numProcesses) {
         nodes = new PetersonLock[numProcesses];
     }
+
+    public void acquire(Runnable callback) {
+        //assign the process to one of the leaf nodes that is available. need to figure out how to find out which node is available
+    }
 }
