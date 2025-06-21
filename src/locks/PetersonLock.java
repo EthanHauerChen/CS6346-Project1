@@ -9,42 +9,39 @@ class PetersonLock {
     public AtomicBoolean[] flag = {new AtomicBoolean(false), new AtomicBoolean(false)};
     public AtomicInteger victim = new AtomicInteger(-1);
 
-    public void acquireLeft(Runnable callback) {
-        this.acquireLock(0, callback);
-    }
-
-    public void acquireRight(Runnable callback) {
-        this.acquireLock(1, callback);
-    }
-
     private int getNotMe(int me) {
         return (me == 0) ? 1 : 0;
     }
 
-    private void acquireLock(int me, Runnable callback) {
+    public void acquireLock(int me) {
         int notMe = getNotMe(me);
         flag[me].set(true);
         victim.set(me);
-
         while (flag[notMe].get() && victim.get() == me) { /* busy-wait */ }
-        callback.run();
+    }
+
+    public void releaseLock(int me) {
         flag[me].set(false);
     }
 
     public static void main(String[] args) throws InterruptedException {
-        int COUNTER_ITERATIONS = 100000;
+        int COUNTER_ITERATIONS = 1000000;
         Counter counter = new Counter();
         PetersonLock lock = new PetersonLock();
 
         Thread threadA = new Thread(() -> {
             for (int i = 0; i < COUNTER_ITERATIONS; i++) {
-                lock.acquireLeft(counter::incrementValue);
+                lock.acquireLock(0);
+                counter.incrementValue();
+                lock.releaseLock(0);
             }
         });
 
         Thread threadB = new Thread(() -> {
             for (int i = 0; i < COUNTER_ITERATIONS; i++) {
-                lock.acquireRight(counter::incrementValue);
+                lock.acquireLock(1);
+                counter.incrementValue();
+                lock.releaseLock(1);
             }
         });
 
