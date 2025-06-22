@@ -7,19 +7,22 @@ public class TournamentTreeLock {
         nodes = new PetersonLock[numProcesses-1];
     }
 
-    public void acquireLock(Thread[] processes) {
-        if (processes.length != nodes.length+1) throw new IllegalArgumentException("array size does not match");
+    public void acquireLock(int node) {
+        //if (processes.length != nodes.length+1) throw new IllegalArgumentException("array size does not match");
         
-        if (processes.length == 1) {
-            acquire(0, 1, 0);
-            processes[0].start();
-            release(0, 1, 0);
-            return;
-        }
-        for (int i = 0; i < processes.length; i++) {
-            //todo
-        }
+        // if (processes.length == 1) {
+        //     acquire(0, 1, 0);
+        //     processes[0].start();
+        //     release(0, 1, 0);
+        //     return;
+        // }
+        // for (int i = 0; i < processes.length; i++) {
+        //     //todo
+        // }
+
+        acquire(node, nodes.length+1, 0);
     }
+    public void releaseLock(int node) { release(node, nodes.length+1, 0);}
 
     private void acquire(int id, int total, int offset) {
         if (total == 1) return;
