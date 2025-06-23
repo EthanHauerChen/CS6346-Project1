@@ -5,6 +5,7 @@ public class TournamentTreeLock {
 
     public TournamentTreeLock(int numProcesses) {
         nodes = new PetersonLock[numProcesses-1];
+        for (int i = 0; i < numProcesses-1; i++) nodes[i] = new PetersonLock();
     }
 
     public void acquireLock(int node) {

@@ -7,13 +7,14 @@ import locks.TournamentTreeLock;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        testTournamentLock(8, 100000);
+        testTournamentLock(16, 1000000);
     }
 
     public static void testTournamentLock(int NUM_PROCESSES, int COUNTER_ITERATIONS) throws InterruptedException {
-        //check if NUM_PROCESSES IS POWER OF 2
+        //check if NUM_PROCESSES IS POWER OF 2 or 0
         int logValue = (int)(Math.log(NUM_PROCESSES) / Math.log(2));
         if (Math.pow(2, logValue) != NUM_PROCESSES) throw new IllegalArgumentException("num processes must be a power of 2");
+        if (NUM_PROCESSES == 0) throw new IllegalArgumentException("num processes cannot be 0");
 
         Counter counter = new Counter();
         Thread[] threads = new Thread[NUM_PROCESSES];
@@ -33,7 +34,7 @@ public class Main {
         for (int i = 0; i < NUM_PROCESSES; i++) threads[i].start();
         for (int i = 0; i < NUM_PROCESSES; i++) threads[i].join();
 
-        System.out.println("Expected counter value: " + (COUNTER_ITERATIONS * 2));
+        System.out.println("Expected counter value: " + (COUNTER_ITERATIONS * NUM_PROCESSES));
         System.out.println("Actual counter value: " + counter.getValue());
     }
 }
