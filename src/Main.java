@@ -6,11 +6,11 @@ import locks.FilterBlackBoxLock;
 import locks.TournamentTreeLock;
 
 public class Main {
-    public static void main(String[] args) {
-        // do nothing
+    public static void main(String[] args) throws InterruptedException {
+        testTournamentLock(8, 100000);
     }
 
-    public static void testTournamentLock(int NUM_PROCESSES, int COUNTER_ITERATIONS) {
+    public static void testTournamentLock(int NUM_PROCESSES, int COUNTER_ITERATIONS) throws InterruptedException {
         //check if NUM_PROCESSES IS POWER OF 2
         int logValue = (int)(Math.log(NUM_PROCESSES) / Math.log(2));
         if (Math.pow(2, logValue) != NUM_PROCESSES) throw new IllegalArgumentException("num processes must be a power of 2");
@@ -19,6 +19,21 @@ public class Main {
         Thread[] threads = new Thread[NUM_PROCESSES];
         TournamentTreeLock lock = new TournamentTreeLock(NUM_PROCESSES);
 
-        //todo
+        for (int i = 0; i < NUM_PROCESSES; i++) {
+            int num = i;
+            threads[i] = new Thread(() -> {
+                for (int j = 0; j < COUNTER_ITERATIONS; j++) {
+                    lock.acquireLock(num);
+                    counter.incrementValue();
+                    lock.releaseLock(num);
+                }
+            });
+        }
+
+        for (int i = 0; i < NUM_PROCESSES; i++) threads[i].start();
+        for (int i = 0; i < NUM_PROCESSES; i++) threads[i].join();
+
+        System.out.println("Expected counter value: " + (COUNTER_ITERATIONS * 2));
+        System.out.println("Actual counter value: " + counter.getValue());
     }
 }

@@ -25,7 +25,7 @@ class PetersonLock {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        int COUNTER_ITERATIONS = 1000000;
+        int COUNTER_ITERATIONS = 10000000;
         Counter counter = new Counter();
         PetersonLock lock = new PetersonLock();
 
