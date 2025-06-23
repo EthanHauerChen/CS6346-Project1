@@ -1,29 +1,30 @@
 package locks;
 
 import common.Counter;
+import locks.GeneralizedPetersonLock;
 
 public class FilterBlackBoxLock {
     private final int numProcesses;
-    private final PetersonLock[] gadgets;
+    private final GeneralizedPetersonLock[] gadgets;
 
     public FilterBlackBoxLock(int numProcesses) {
         this.numProcesses = numProcesses;
-        this.gadgets = new PetersonLock[numProcesses];
+        this.gadgets = new GeneralizedPetersonLock[numProcesses];
 
         for (int i = 0; i < numProcesses; i++) {
-            gadgets[i] = new PetersonLock();
+            gadgets[i] = new GeneralizedPetersonLock(numProcesses-i);
         }
     }
 
     public void acquireLock(int processId) {
         for (int i = 0; i <= numProcesses - 1; i++) {
-            this.gadgets[i].acquireLock(processId % 2);
+            this.gadgets[i].acquireLock(processId);
         }
     }
 
     public void releaseLock(int processId) {
         for (int i = numProcesses - 1; i >= 0; i--) {
-            this.gadgets[i].releaseLock(processId % 2);
+            this.gadgets[i].releaseLock(processId);
         }
     }
 
