@@ -20,6 +20,7 @@ public class GeneralizedPetersonLock {
         boolean anyOtherFlagsTrue = false;
         do {
             for (int i = 0; i < flag.length; i++) {
+                if (i == me) continue;
                 if (flag[i].get()) {
                     anyOtherFlagsTrue = true;
                     break;
