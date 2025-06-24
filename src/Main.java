@@ -4,11 +4,40 @@
 import common.Counter;
 import locks.FilterBlackBoxLock;
 import locks.TournamentTreeLock;
+import locks.FilterTextbook;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        testTournamentLock(16, 1000000);
-        testFilterBB(10, 1000000);
+        testFilterTB(10,100000);
+    }
+
+    public static void testFilterTB(int NUM_PROCESSES, int COUNTER_ITERATIONS) throws InterruptedException {
+        System.out.println("Textbook Filter Lock with " + NUM_PROCESSES + " processes, " + COUNTER_ITERATIONS + " iterations");
+        Counter counter = new Counter();
+        Thread[] threads = new Thread[NUM_PROCESSES];
+        FilterTextbook lock = new FilterTextbook(NUM_PROCESSES);
+
+        for (int i = 0; i < NUM_PROCESSES; i++) {
+            int process = i;
+            threads[i] = new Thread(() -> {
+                for (int j = 0; j < COUNTER_ITERATIONS; j++) {
+                    lock.lock(process);
+                    counter.incrementValue();
+                    lock.unlock(process);
+                }
+            });
+        }
+
+        for (int i = 0; i < NUM_PROCESSES; i++) {
+            threads[i].start();
+        }
+
+        for (int i = 0; i < NUM_PROCESSES; i++) {
+            threads[i].join();
+        }
+
+        System.out.println("Expected counter value: " + (COUNTER_ITERATIONS * NUM_PROCESSES));
+        System.out.println("Actual counter value: " + counter.getValue());
     }
 
     //TODO, replace with the code from filterbb.java from filterbb branch
