@@ -1,9 +1,11 @@
 package locks;
 
+import common.ILock;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class GeneralizedPetersonLock {
+public class GeneralizedPetersonLock implements ILock {
     public AtomicBoolean[] flag;
     public AtomicInteger victim = new AtomicInteger(-1);
 
@@ -12,6 +14,7 @@ public class GeneralizedPetersonLock {
         for (int i = 0; i < numProcesses; i++) flag[i] = new AtomicBoolean(false);
     }
 
+    @Override
     public void acquireLock(int me) {
         flag[me].set(true);
         victim.set(me);
@@ -26,9 +29,10 @@ public class GeneralizedPetersonLock {
                     break;
                 }
             }
-        } while(anyOtherFlagsTrue && victim.get() == me);
+        } while (anyOtherFlagsTrue && victim.get() == me);
     }
 
+    @Override
     public void releaseLock(int me) {
         flag[me].set(false);
     }
