@@ -11,6 +11,7 @@ public class Main {
         testFilterBB(10, 1000000);
     }
 
+    //TODO, replace with the code from filterbb.java from filterbb branch
     public static void testFilterBB(int NUM_PROCESSES, int COUNTER_ITERATIONS) throws InterruptedException {
         System.out.println("Black Box Filter Lock with " + NUM_PROCESSES + " processes, " + COUNTER_ITERATIONS + " iterations");
         Counter counter = new Counter();
