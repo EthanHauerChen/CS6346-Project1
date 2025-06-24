@@ -13,7 +13,7 @@ public class GeneralizedPetersonLock {
     }
 
     public void acquireLock(int me) {
-        flag[me].set(false);
+        flag[me].set(true);
         victim.set(me);
 
         //busy wait
