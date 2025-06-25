@@ -19,11 +19,12 @@ public class Main {
         FilterBlackBoxLock lock = new FilterBlackBoxLock(NUM_PROCESSES);
 
         for (int i = 0; i < NUM_PROCESSES; i++) {
+            int process = i;
             threads[i] = new Thread(() -> {
                 for (int j = 0; j < COUNTER_ITERATIONS; j++) {
-                    lock.acquireLock(0);
+                    lock.acquireLock(process);
                     counter.incrementValue();
-                    lock.releaseLock(0);
+                    lock.releaseLock(process);
                 }
             });
         }
