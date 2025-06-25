@@ -1,6 +1,5 @@
 package locks;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FilterTextbook {
@@ -34,6 +33,16 @@ public class FilterTextbook {
                 }
             } while(existsProcessGtrOrEqToMe && victim[i].get() == processId);
         }
+    }
+    
+    //haofast's function. replace the do-while in lock() with while(hasConflict(processId, i)) and the filter lock will work properly
+    private boolean hasConflict(int me, int level) {
+        for (int k = 0; k < this.level.length; k++) {
+            if (k != me && this.level[k].get() >= level && victim[level].get() == me) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void unlock(int processId) {
