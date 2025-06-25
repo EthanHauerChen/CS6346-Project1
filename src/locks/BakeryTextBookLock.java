@@ -22,7 +22,7 @@ public class BakeryTextBookLock extends AbstractBakeryLock {
 
     private boolean hasConflict(int me) {
         for (int k = 0; k < this.numProcesses; k++) {
-            if (k != me && this.flag[k].get() && this.tokenXIsLessThanLabelY(k, me)) {
+            if (k != me && this.flag[k].get() && this.tokenXIsLessThanTokenY(k, me)) {
                 return true;
             }
         }

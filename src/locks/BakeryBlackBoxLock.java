@@ -17,7 +17,7 @@ public class BakeryBlackBoxLock extends AbstractBakeryLock {
         for (int i = 0; i < this.numProcesses; i++) {
             if (i == me) continue;
             while(this.flag[i].get()) {}
-            while(this.token[i].get() != 0 && !this.tokenXIsLessThanLabelY(me, i)) {}
+            while(this.token[i].get() != 0 && !this.tokenXIsLessThanTokenY(me, i)) {}
         }
     }
 

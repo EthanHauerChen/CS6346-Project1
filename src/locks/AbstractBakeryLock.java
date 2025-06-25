@@ -29,7 +29,7 @@ public abstract class AbstractBakeryLock implements ILock {
         return max;
     }
 
-    protected boolean tokenXIsLessThanLabelY(int processX, int processY) {
+    protected boolean tokenXIsLessThanTokenY(int processX, int processY) {
         int labelX = this.token[processX].get();
         int labelY = this.token[processY].get();
         if (labelX < labelY) return true;
