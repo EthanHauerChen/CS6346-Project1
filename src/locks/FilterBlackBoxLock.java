@@ -12,19 +12,19 @@ public class FilterBlackBoxLock implements ILock {
         this.gadgets = new GeneralizedPetersonLock[numProcesses];
 
         for (int i = 0; i < numProcesses; i++) {
-            gadgets[i] = new GeneralizedPetersonLock(numProcesses - i);
+            gadgets[i] = new GeneralizedPetersonLock(numProcesses);
         }
     }
 
-    public void acquireLock(int processId) {
+    public void acquireLock(int processId) { //subtract 1 from processId for each subsequent GPL so process num 4 doesn't try to acquire flag[4] of a GPL that only has flag of length 2
         for (int i = 0; i <= numProcesses - 1; i++) {
-            this.gadgets[i].acquireLock(processId - i > -1 ? processId - i : 0);
+            this.gadgets[i].acquireLock(processId);
         }
     }
 
     public void releaseLock(int processId) {
         for (int i = numProcesses - 1; i >= 0; i--) {
-            this.gadgets[i].releaseLock(processId - i > -1 ? processId - i : 0);
+            this.gadgets[i].releaseLock(processId);
         }
     }
 

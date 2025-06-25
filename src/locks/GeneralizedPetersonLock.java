@@ -20,20 +20,20 @@ public class GeneralizedPetersonLock implements ILock {
         victim.set(me);
 
         //busy wait
-        boolean anyOtherFlagsTrue = false;
-        do {
-            for (int i = 0; i < flag.length; i++) {
-                if (i == me) continue;
-                if (flag[i].get()) {
-                    anyOtherFlagsTrue = true;
-                    break;
-                }
-            }
-        } while (anyOtherFlagsTrue && victim.get() == me);
+        while (hasConflict(me) && victim.get() == me);
     }
 
     @Override
     public void releaseLock(int me) {
         flag[me].set(false);
+    }
+
+    private boolean hasConflict(int me) {
+        for (int k = 0; k < flag.length; k++) {
+            if (k != me && flag[k].get()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
