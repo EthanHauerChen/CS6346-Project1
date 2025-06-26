@@ -10,6 +10,6 @@ public class LockTester {
 
         System.out.println("Execution time: " + testResults.getAverageExecutionTime());
         System.out.println("Expected counter value: " + (numProcesses * numIterations));
-        System.out.println("Actual counter value: " + testResults.getActualCounterValues().getFirst());
+        System.out.println("Actual counter value: " + testResults.getActualCounterValues().get(0));
     }
 }
