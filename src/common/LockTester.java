@@ -17,6 +17,8 @@ public class LockTester {
             });
         }
 
+        long startTime = System.currentTimeMillis();
+
         for (int i = 0; i < numProcesses; i++) {
             threads[i].start();
         }
@@ -25,6 +27,9 @@ public class LockTester {
             threads[i].join();
         }
 
+        long endTime = System.currentTimeMillis();
+
+        System.out.println("Execution time: " + (endTime - startTime) + "ms");
         System.out.println("Expected counter value: " + (numProcesses * iterations));
         System.out.println("Actual counter value: " + counter.getValue());
     }
