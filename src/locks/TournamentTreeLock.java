@@ -1,6 +1,7 @@
 package locks;
 
 import common.ILock;
+import common.LockTester;
 
 public class TournamentTreeLock implements ILock {
     PetersonLock[] nodes;
@@ -49,5 +50,12 @@ public class TournamentTreeLock implements ILock {
         int instance = id / 2;
         release(instance, total / 2, offset + total / 2);
         nodes[offset + instance].releaseLock(id % 2);
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        int NUM_PROCESSES = 16;
+        int COUNTER_ITERATIONS = 1000000;
+        TournamentTreeLock lock = new TournamentTreeLock(NUM_PROCESSES);
+        LockTester.testLock(lock, NUM_PROCESSES, COUNTER_ITERATIONS);
     }
 }
