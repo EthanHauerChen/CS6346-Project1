@@ -11,7 +11,7 @@ public class BakeryBlackBoxLock extends AbstractBakeryLock {
 
     @Override
     public String getLockName() {
-        return "bakery_black_box";
+        return "original_bakery";
     }
 
     @Override
@@ -33,7 +33,7 @@ public class BakeryBlackBoxLock extends AbstractBakeryLock {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        int NUM_PROCESSES = 5;
+        int NUM_PROCESSES = 16;
         int COUNTER_ITERATIONS = 1000000;
         BakeryBlackBoxLock lock = new BakeryBlackBoxLock(NUM_PROCESSES);
         LockTester.testLock(lock, NUM_PROCESSES, COUNTER_ITERATIONS);
