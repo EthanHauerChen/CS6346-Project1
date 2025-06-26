@@ -9,6 +9,11 @@ public class BakeryTextBookLock extends AbstractBakeryLock {
     }
 
     @Override
+    public String getLockName() {
+        return "bakery_text_book";
+    }
+
+    @Override
     public void acquireLock(int me) {
         this.flag[me].set(true);
         this.token[me].set(this.getMaxToken() + 1);

@@ -11,6 +11,11 @@ public class TournamentTreeLock implements ILock {
     }
 
     @Override
+    public String getLockName() {
+        return "tournament";
+    }
+
+    @Override
     public void acquireLock(int node) {
         //if (processes.length != nodes.length+1) throw new IllegalArgumentException("array size does not match");
 

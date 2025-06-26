@@ -23,6 +23,11 @@ public class FilterTextBookLock implements ILock {
     }
 
     @Override
+    public String getLockName() {
+        return "filter_text_book";
+    }
+
+    @Override
     public void acquireLock(int me) {
         for (int l = 1; l < this.numProcesses; l++) {
             level[me].set(l);

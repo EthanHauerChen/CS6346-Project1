@@ -15,6 +15,11 @@ public class GeneralizedPetersonLock implements ILock {
     }
 
     @Override
+    public String getLockName() {
+        return "generalized_peterson";
+    }
+
+    @Override
     public void acquireLock(int me) {
         flag[me].set(true);
         victim.set(me);
