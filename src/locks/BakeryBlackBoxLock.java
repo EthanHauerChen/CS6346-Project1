@@ -1,11 +1,17 @@
 package locks;
 
+import common.LockTest;
 import common.LockTester;
 
 public class BakeryBlackBoxLock extends AbstractBakeryLock {
 
     public BakeryBlackBoxLock(int numProcesses) {
         super(numProcesses);
+    }
+
+    @Override
+    public String getLockName() {
+        return "bakery_black_box";
     }
 
     @Override

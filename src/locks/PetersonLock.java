@@ -15,6 +15,11 @@ class PetersonLock implements ILock {
     }
 
     @Override
+    public String getLockName() {
+        return "peterson";
+    }
+
+    @Override
     public void acquireLock(int me) {
         int notMe = getNotMe(me);
         flag[me].set(true);
