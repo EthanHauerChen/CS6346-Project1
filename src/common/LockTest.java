@@ -33,10 +33,18 @@ public class LockTest {
                 for (int j = 0; j < this.numIterations; j++) {
                     long startLockTime = System.nanoTime();
                     lock.acquireLock(processId);
-                    counter.incrementValue();
+                    if (counter.getValue() < numIterations) {
+                        counter.incrementValue();
+                    }
+                    else {
+                        lock.releaseLock(processId);
+                        break;
+                    }
                     lock.releaseLock(processId);
                     long executionLockTime = System.nanoTime() - startLockTime;
                     turnaroundTime[processId * numIterations + j] = executionLockTime;
+
+                    if (counter.getValue() >= numIterations) break;
                 }
             });
         }
@@ -75,7 +83,7 @@ public class LockTest {
         }
 
         public Long getAverageTurnaroundTime() {
-            return this.getTurnAroundTimes().stream().mapToLong(Long::longValue).sum() / ((long) numProcesses * numIterations);
+            return this.getTurnAroundTimes().stream().mapToLong(Long::longValue).sum() / ((long) numIterations);
         }
 
         public void addRunEntry(long actualCounterValue, long executionTime, ArrayList<Long> turnaroundTime) {
