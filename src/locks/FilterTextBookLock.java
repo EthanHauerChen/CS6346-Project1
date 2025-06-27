@@ -28,7 +28,7 @@ public class FilterTextBookLock implements ILock {
     }
 
     @Override
-    public void acquireLock(int me) {
+    public void lock(int me) {
         for (int l = 1; l < this.numProcesses; l++) {
             level[me].set(l);
             victim[l].set(me);
@@ -37,7 +37,7 @@ public class FilterTextBookLock implements ILock {
     }
 
     @Override
-    public void releaseLock(int me) {
+    public void unlock(int me) {
         this.level[me].set(0);
     }
 

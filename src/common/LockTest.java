@@ -32,15 +32,15 @@ public class LockTest {
             threads[i] = new Thread(() -> {
                 for (int j = 0; j < this.numIterations; j++) {
                     long startLockTime = System.nanoTime();
-                    lock.acquireLock(processId);
+                    lock.lock(processId);
                     if (counter.getValue() < numIterations) {
                         counter.incrementValue();
                     }
                     else {
-                        lock.releaseLock(processId);
+                        lock.unlock(processId);
                         break;
                     }
-                    lock.releaseLock(processId);
+                    lock.unlock(processId);
                     long executionLockTime = System.nanoTime() - startLockTime;
                     turnaroundTime[processId * numIterations + j] = executionLockTime;
 

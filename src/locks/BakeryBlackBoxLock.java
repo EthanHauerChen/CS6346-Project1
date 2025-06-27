@@ -15,7 +15,7 @@ public class BakeryBlackBoxLock extends AbstractBakeryLock {
     }
 
     @Override
-    public void acquireLock(int me) {
+    public void lock(int me) {
         this.flag[me].set(true);
         this.token[me].set(this.getMaxToken() + 1);
         this.flag[me].set(false);
@@ -28,7 +28,7 @@ public class BakeryBlackBoxLock extends AbstractBakeryLock {
     }
 
     @Override
-    public void releaseLock(int me) {
+    public void unlock(int me) {
         this.token[me].set(0);
     }
 

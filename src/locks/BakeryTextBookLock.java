@@ -14,14 +14,14 @@ public class BakeryTextBookLock extends AbstractBakeryLock {
     }
 
     @Override
-    public void acquireLock(int me) {
+    public void lock(int me) {
         this.flag[me].set(true);
         this.token[me].set(this.getMaxToken() + 1);
         while (this.hasConflict(me)) ;
     }
 
     @Override
-    public void releaseLock(int me) {
+    public void unlock(int me) {
         this.flag[me].set(false);
     }
 

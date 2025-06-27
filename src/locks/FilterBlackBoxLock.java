@@ -22,16 +22,16 @@ public class FilterBlackBoxLock implements ILock {
     }
 
     @Override
-    public void acquireLock(int processId) { //subtract 1 from processId for each subsequent GPL so process num 4 doesn't try to acquire flag[4] of a GPL that only has flag of length 2
+    public void lock(int processId) { //subtract 1 from processId for each subsequent GPL so process num 4 doesn't try to acquire flag[4] of a GPL that only has flag of length 2
         for (int i = 0; i <= numProcesses - 1; i++) {
-            this.gadgets[i].acquireLock(processId);
+            this.gadgets[i].lock(processId);
         }
     }
 
     @Override
-    public void releaseLock(int processId) {
+    public void unlock(int processId) {
         for (int i = numProcesses - 1; i >= 0; i--) {
-            this.gadgets[i].releaseLock(processId);
+            this.gadgets[i].unlock(processId);
         }
     }
 

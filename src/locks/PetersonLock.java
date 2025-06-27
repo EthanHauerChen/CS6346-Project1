@@ -20,7 +20,7 @@ class PetersonLock implements ILock {
     }
 
     @Override
-    public void acquireLock(int me) {
+    public void lock(int me) {
         int notMe = getNotMe(me);
         flag[me].set(true);
         victim.set(me);
@@ -28,7 +28,7 @@ class PetersonLock implements ILock {
     }
 
     @Override
-    public void releaseLock(int me) {
+    public void unlock(int me) {
         flag[me].set(false);
     }
 
