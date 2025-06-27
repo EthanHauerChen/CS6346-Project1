@@ -10,7 +10,7 @@ public class Main {
 
         System.out.println(LockTest.LockTestResults.getCsvTitle());
 
-        for (NUM_PROCESSES = 1; NUM_PROCESSES <= 8; NUM_PROCESSES *= 2) {
+        for (NUM_PROCESSES = 1; NUM_PROCESSES <= 8; NUM_PROCESSES++) {
             LockTest.LockTestResults filterBBResults = new LockTest(
                     new FilterBlackBoxLock(NUM_PROCESSES), NUM_RUNS, NUM_PROCESSES, NUM_ITERATIONS
             ).runAndGetResults();

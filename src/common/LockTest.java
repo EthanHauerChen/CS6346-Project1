@@ -86,6 +86,10 @@ public class LockTest {
             return this.getTurnAroundTimes().stream().mapToLong(Long::longValue).sum() / ((long) numIterations);
         }
 
+        public Long getThroughput() {
+            return numIterations / getAverageExecutionTime();
+        }
+
         public void addRunEntry(long actualCounterValue, long executionTime, ArrayList<Long> turnaroundTime) {
             this.actualCounterValues.add(actualCounterValue);
             this.executionTimes.add(executionTime);
@@ -99,7 +103,8 @@ public class LockTest {
                 .append("num_processes").append(CSV_SEPARATOR)
                 .append("num_iterations").append(CSV_SEPARATOR)
                 .append("avg_turnaround_time_(ns)").append(CSV_SEPARATOR)
-                .append("avg_time_per_run_(ms)")
+                .append("avg_time_per_run_(ms)").append(CSV_SEPARATOR)
+                .append("avg_throughput(iterations / ms)")
                 .toString();
         }
 
@@ -110,7 +115,8 @@ public class LockTest {
                 .append(numProcesses).append(CSV_SEPARATOR)
                 .append(numIterations).append(CSV_SEPARATOR)
                 .append(this.getAverageTurnaroundTime()).append(CSV_SEPARATOR)
-                .append(this.getAverageExecutionTime())
+                .append(this.getAverageExecutionTime()).append(CSV_SEPARATOR)
+                .append(this.getThroughput())
                 .toString();
         }
     }
