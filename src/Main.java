@@ -1,4 +1,3 @@
-import common.Counter;
 import common.LockTest;
 import locks.*;
 
