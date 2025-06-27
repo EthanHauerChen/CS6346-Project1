@@ -7,7 +7,10 @@ public class Main {
         int NUM_RUNS = 5;
         int NUM_PROCESSES;
         int NUM_ITERATIONS = 1000000;
-        for (NUM_PROCESSES = 1; NUM_PROCESSES <= 16; NUM_PROCESSES++) {
+
+        System.out.println(LockTest.LockTestResults.getCsvTitle());
+
+        for (NUM_PROCESSES = 1; NUM_PROCESSES <= 8; NUM_PROCESSES *= 2) {
             LockTest.LockTestResults filterBBResults = new LockTest(
                     new FilterBlackBoxLock(NUM_PROCESSES), NUM_RUNS, NUM_PROCESSES, NUM_ITERATIONS
             ).runAndGetResults();
@@ -28,13 +31,11 @@ public class Main {
                     new BakeryTextBookLock(NUM_PROCESSES), NUM_RUNS, NUM_PROCESSES, NUM_ITERATIONS
             ).runAndGetResults();
 
-            System.out.println(LockTest.LockTestResults.getCsvTitle());
             System.out.println(filterBBResults.getCsvEntry());
             System.out.println(filterTBResults.getCsvEntry());
             System.out.println(tournamentResults.getCsvEntry());
             System.out.println(bakeryBBResults.getCsvEntry());
             System.out.println(bakeryTBResults.getCsvEntry());
-            
         }
     }
 }
